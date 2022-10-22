@@ -1,4 +1,4 @@
-import * as bank from "./bank";
+import { Bank, TransactionType } from "./bank";
 
 describe("Unit tests", () => {
   afterEach(() => {
@@ -7,7 +7,7 @@ describe("Unit tests", () => {
 
   test("printStatement prints whatever the transaction records is", () => {
     const spyConsoleLog = jest.spyOn(console, "log");
-    const mockListOfTx: bank.TransactionType[] = [
+    const mockListOfTx: TransactionType[] = [
       {
         date: new Date("2012-01-14"),
         amount: -500,
@@ -25,7 +25,7 @@ describe("Unit tests", () => {
       },
     ];
 
-    bank.init(mockListOfTx);
+    const bank = new Bank(mockListOfTx);
     bank.printStatement();
     expect(spyConsoleLog).toHaveBeenCalledWith(
       [
@@ -40,8 +40,8 @@ describe("Unit tests", () => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date("2012-01-10"));
 
-    const mockListOfTx = [] as bank.TransactionType[];
-    bank.init(mockListOfTx);
+    const mockListOfTx = [] as TransactionType[];
+    const bank = new Bank(mockListOfTx);
 
     bank.deposit(1000);
 
@@ -57,8 +57,8 @@ describe("Unit tests", () => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date("2012-01-14"));
 
-    const mockListOfTx = [] as bank.TransactionType[];
-    bank.init(mockListOfTx);
+    const mockListOfTx = [] as TransactionType[];
+    const bank = new Bank(mockListOfTx);
 
     bank.withdraw(500);
 

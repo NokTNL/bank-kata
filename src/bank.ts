@@ -4,45 +4,46 @@ export type TransactionType = {
   balance: number;
 };
 
-let _listOfTx = [] as TransactionType[];
-let _balance = 0;
+export class Bank {
+  private _listOfTx: TransactionType[];
+  private _balance: number = 0;
 
-// Imitating a constructor fucntion so that we can mock the transaction list
-export const init = (initialListOfTx: TransactionType[]) => {
-  _listOfTx = initialListOfTx;
-  _balance = 0;
-};
+  constructor(initialListOfTx: TransactionType[]) {
+    this._listOfTx = initialListOfTx;
+  }
 
-export const deposit = (amount: number) => {
-  _balance += amount;
+  deposit(amount: number) {
+    this._balance += amount;
 
-  _listOfTx.unshift({
-    date: new Date(),
-    amount: amount,
-    balance: _balance,
-  });
-};
-export const withdraw = (amount: number) => {
-  _balance -= amount;
+    this._listOfTx.unshift({
+      date: new Date(),
+      amount: amount,
+      balance: this._balance,
+    });
+  }
 
-  _listOfTx.unshift({
-    date: new Date(),
-    amount: -amount,
-    balance: _balance,
-  });
-};
+  withdraw(amount: number) {
+    this._balance -= amount;
 
-export const printStatement = () => {
-  const formatDateString = (date: Date) =>
-    `${date.getDate()}/0${date.getMonth() + 1}/${date.getFullYear()}`;
+    this._listOfTx.unshift({
+      date: new Date(),
+      amount: -amount,
+      balance: this._balance,
+    });
+  }
 
-  console.log(
-    "Date       || Amount || Balance\n" +
-      _listOfTx
-        .map(
-          (tx) =>
-            `${formatDateString(tx.date)} || ${tx.amount}   || ${tx.balance}`
-        )
-        .join("\n")
-  );
-};
+  printStatement = () => {
+    const formatDateString = (date: Date) =>
+      `${date.getDate()}/0${date.getMonth() + 1}/${date.getFullYear()}`;
+
+    console.log(
+      "Date       || Amount || Balance\n" +
+        this._listOfTx
+          .map(
+            (tx) =>
+              `${formatDateString(tx.date)} || ${tx.amount}   || ${tx.balance}`
+          )
+          .join("\n")
+    );
+  };
+}

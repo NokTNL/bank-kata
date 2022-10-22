@@ -1,4 +1,4 @@
-import * as bank from "./bank";
+import { Bank } from "./bank";
 
 describe("Acceptance test", () => {
   afterEach(() => {
@@ -7,6 +7,7 @@ describe("Acceptance test", () => {
 
   test("Should print correct statement", () => {
     const spyConsoleLog = jest.spyOn(console, "log");
+    const bank = new Bank([]);
 
     jest.useFakeTimers();
     jest.setSystemTime(new Date("2012-01-10"));
